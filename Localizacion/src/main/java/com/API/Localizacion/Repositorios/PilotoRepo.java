@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author javie
  */
 @Repository
-public interface PilotoRepo extends JpaRepository <Piloto, Long> {
+public interface PilotoRepo extends JpaRepository <Piloto, Integer> {
     
 }

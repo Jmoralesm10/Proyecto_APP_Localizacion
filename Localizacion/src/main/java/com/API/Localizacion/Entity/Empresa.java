@@ -19,15 +19,24 @@ import jakarta.persistence.Table;
 public class Empresa {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long Id_Empresa;
+    private Integer Id;
+    private String Id_Empresa;
     private String Nombre_Empresa;
     private String Password;
 
-    public Long getId_Empresa() {
+    public Integer getId() {
+        return Id;
+    }
+
+    public void setId(Integer Id) {
+        this.Id = Id;
+    }
+    
+    public String getId_Empresa() {
         return Id_Empresa;
     }
 
-    public void setId_Empresa(Long Id_Empresa) {
+    public void setId_Empresa(String Id_Empresa) {
         this.Id_Empresa = Id_Empresa;
     }
 

@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
  * @author javie
  */
 @Repository
-public interface CamionRepo extends JpaRepository <Camion, Long> {    
+public interface CamionRepo extends JpaRepository <Camion, Integer> {    
 }

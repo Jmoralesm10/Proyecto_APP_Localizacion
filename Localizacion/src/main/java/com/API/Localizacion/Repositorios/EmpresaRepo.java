@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author javie
  */
 @Repository
-public interface EmpresaRepo extends JpaRepository <Empresa, Long> {
+public interface EmpresaRepo extends JpaRepository <Empresa, Integer> {
     
 }

@@ -19,16 +19,25 @@ import jakarta.persistence.Table;
 public class Camion {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long Placa_camion;
+    private Integer Id;
+    private String Placa_camion;
     private String No_Chasis;
     private String Marca;
     private String Id_Empresa;
 
-    public Long getPlaca_camion() {
+    public Integer getId() {
+        return Id;
+    }
+
+    public void setId(Integer Id) {
+        this.Id = Id;
+    }
+    
+    public String getPlaca_camion() {
         return Placa_camion;
     }
 
-    public void setPlaca_camion(Long Placa_camion) {
+    public void setPlaca_camion(String Placa_camion) {
         this.Placa_camion = Placa_camion;
     }
 

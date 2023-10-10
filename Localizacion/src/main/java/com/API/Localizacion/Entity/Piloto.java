@@ -19,18 +19,27 @@ import jakarta.persistence.Table;
 public class Piloto {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long DPI_Piloto;
+    private Integer Id;
+    private String DPI_Piloto;
     private String Licencia_Conducir;
     private String Nombres;
     private String Apellidos;
     private String Direccion;
     private String Id_Empresa;
 
-    public Long getDPI_Piloto() {
+    public Integer getId() {
+        return Id;
+    }
+
+    public void setId(Integer Id) {
+        this.Id = Id;
+    }
+    
+    public String getDPI_Piloto() {
         return DPI_Piloto;
     }
 
-    public void setDPI_Piloto(Long DPI_Piloto) {
+    public void setDPI_Piloto(String DPI_Piloto) {
         this.DPI_Piloto = DPI_Piloto;
     }
 
