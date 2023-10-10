@@ -31,7 +31,7 @@ public class ViajeService {
         viajerepo.delete(emp);
     }
     
-    public List<Viaje> listar(Viaje emp){
+    public List<Viaje> listar(){
         return viajerepo.findAll();
     }
 }

@@ -31,7 +31,7 @@ public class EmpresaService {
         empresarepo.delete(emp);
     }
     
-    public List<Empresa> listar(Empresa emp){
+    public List<Empresa> listar(){
         return empresarepo.findAll();
     }
 }

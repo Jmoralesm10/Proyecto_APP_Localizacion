@@ -31,7 +31,7 @@ public class CamionService {
         camionrepo.delete(emp);
     }
     
-    public List<Camion> listar(Camion emp){
+    public List<Camion> listar(){
         return camionrepo.findAll();
     }
 }

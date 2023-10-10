@@ -31,7 +31,7 @@ public class PilotoService {
         pilotorepo.delete(emp);
     }
     
-    public List<Piloto> listar(Piloto emp){
+    public List<Piloto> listar(){
         return pilotorepo.findAll();
     }
 }

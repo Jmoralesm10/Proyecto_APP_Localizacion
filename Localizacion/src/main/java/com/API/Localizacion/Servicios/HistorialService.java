@@ -31,7 +31,7 @@ public class HistorialService {
         historialrepo.delete(emp);
     }
     
-    public List<Historial_Ubicaciones> listar(Historial_Ubicaciones emp){
+    public List<Historial_Ubicaciones> listar(){
         return historialrepo.findAll();
     }
 }
