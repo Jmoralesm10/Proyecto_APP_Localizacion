@@ -20,7 +20,7 @@ public class Historial_Ubicaciones {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer Id_RegistroUbicacion;
-    private Integer d_Viaje;
+    private Integer id_Viaje;
     private String Placa_camion;
     private String DPI_Piloto;
     private String Id_Empresa;
@@ -38,11 +38,11 @@ public class Historial_Ubicaciones {
     }
 
     public Integer getD_Viaje() {
-        return d_Viaje;
+        return id_Viaje;
     }
 
-    public void setD_Viaje(Integer d_Viaje) {
-        this.d_Viaje = d_Viaje;
+    public void setD_Viaje(Integer id_Viaje) {
+        this.id_Viaje = id_Viaje;
     }
 
     public String getPlaca_camion() {
