@@ -34,4 +34,9 @@ public class EmpresaService {
     public List<Empresa> listar(){
         return empresarepo.findAll();
     }
+    
+    
+    public Empresa findByidEmpresa(String idEmpresa) {
+        return empresarepo.findByidEmpresa(idEmpresa);
+    }
 }

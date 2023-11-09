@@ -4,6 +4,8 @@
  */
 package com.API.Localizacion.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +22,9 @@ public class Empresa {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer Id;
-    private String Id_Empresa;
+    
+    @Column(name = "Id_Empresa", unique = true)
+    private String idEmpresa;
     private String Nombre_Empresa;
     private String Password;
 
@@ -32,12 +36,13 @@ public class Empresa {
         this.Id = Id;
     }
     
-    public String getId_Empresa() {
-        return Id_Empresa;
+    @JsonProperty("Id_Empresa")
+    public String getidEmpresa() {
+        return idEmpresa;
     }
 
-    public void setId_Empresa(String Id_Empresa) {
-        this.Id_Empresa = Id_Empresa;
+    public void setidEmpresa(String idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 
     public String getNombre_Empresa() {
