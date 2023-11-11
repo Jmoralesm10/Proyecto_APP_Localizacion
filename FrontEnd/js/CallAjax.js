@@ -103,42 +103,62 @@ function UbicacionMap() {
             if (data.length > 0) {
 
 
-                const DatosEmpresa = data.filter(function(elemento) {
+                const DatosEmpresa = data.filter(function (elemento) {
                     // Ajusta la condición según tu criterio de filtro
                     return elemento.id_empresa === storedUsername;
                 });
 
 
-                const datosPorPlaca = DatosEmpresa.reduce((acumulador, dato) => {
-                    const { placa_camion, fecha_Emision, hora_emision } = dato;
-                    const datetime = new Date(`${fecha_Emision}T${hora_emision}`);
 
-                    if (!acumulador[placa_camion] || datetime > acumulador[placa_camion].datetime) {
+                const datosPorPlaca = DatosEmpresa.reduce((acumulador, dato) => {
+                    const { placa_camion, id_historial, fecha_emision, hora_emision } = dato;
+                    const datetime = new Date(`${fecha_emision}T${hora_emision}`);
+                
+                    if (!acumulador[placa_camion] || id_historial > acumulador[placa_camion].id_historial) {
                         acumulador[placa_camion] = {
                             ubicacion: dato,
-                            datetime
+                            datetime,
+                            id_historial
                         };
                     }
-
+                
                     return acumulador;
                 }, {});
-
+                
                 console.log(datosPorPlaca);
                 
-                const ubicacionesMasRecientes = Object.values(datosPorPlaca).map(item => item.ubicacion);
+                // Encontrar la ubicación más reciente en todo el objeto
+                let ubicacionesMasRecientes = null;
+                let maxIdHistorial = null;
+                
+                for (const placa in datosPorPlaca) {
+                    if (!maxIdHistorial || datosPorPlaca[placa].id_historial > maxIdHistorial) {
+                        maxIdHistorial = datosPorPlaca[placa].id_historial;
+                        ubicacionesMasRecientes = {
+                            placa_camion: placa,
+                            ubicacion: datosPorPlaca[placa].ubicacion,
+                            datetime: datosPorPlaca[placa].datetime,
+                            id_historial: maxIdHistorial
+                        };
+                    }
+                }
+                
+                console.log("Ubicación más reciente:", ubicacionesMasRecientes);
+                                
+
 
                 console.log(ubicacionesMasRecientes);
 
-                for (let index = 0; index < ubicacionesMasRecientes.length; index++) {
 
-                    let ubicacion = ubicacionesMasRecientes[index];
+                for (const placa in datosPorPlaca) {
 
-                    let marker = L.marker([ubicacionesMasRecientes[index].latitud, ubicacionesMasRecientes[index].longitud], { icon: iconMarker }).addTo(myMap);
+                    const ubicacion = datosPorPlaca[placa].ubicacion;
+                    let marker = L.marker([datosPorPlaca[placa].ubicacion.latitud, datosPorPlaca[placa].ubicacion.longitud], { icon: iconMarker }).addTo(myMap);
 
                     marker.on('click', function () {
                         mostrarDetallesEnTabla(ubicacion);
                         $('#miModal').modal('show');
-                        
+
                     });
 
                     markers.push(marker);
@@ -152,7 +172,7 @@ function UbicacionMap() {
 
 // mapa.js
 var storedUsername = "";
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Obtener el valor almacenado en sessionStorage
     storedUsername = sessionStorage.getItem('username');
 
@@ -160,80 +180,21 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 UbicacionMap();
-setInterval(UbicacionMap, 120000);
+setInterval(UbicacionMap, 15000);
 
 
-(() => {
-    'use strict'
-  
-    const getStoredTheme = () => localStorage.getItem('theme')
-    const setStoredTheme = theme => localStorage.setItem('theme', theme)
-  
-    const getPreferredTheme = () => {
-      const storedTheme = getStoredTheme()
-      if (storedTheme) {
-        return storedTheme
-      }
-  
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+function toggleDarkMode() {
+    const body = document.body;
+
+    // Alternar entre las clases de Bootstrap para el modo oscuro y claro
+    if (body.classList.contains('dark-mode')) {
+        body.classList.remove('dark-mode');
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    } else {
+        body.classList.add('dark-mode');
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
     }
-  
-    const setTheme = theme => {
-      if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.setAttribute('data-bs-theme', 'dark')
-      } else {
-        document.documentElement.setAttribute('data-bs-theme', theme)
-      }
-    }
-  
-    setTheme(getPreferredTheme())
-  
-    const showActiveTheme = (theme, focus = false) => {
-      const themeSwitcher = document.querySelector('#bd-theme')
-  
-      if (!themeSwitcher) {
-        return
-      }
-  
-      const themeSwitcherText = document.querySelector('#bd-theme-text')
-      const activeThemeIcon = document.querySelector('.theme-icon-active use')
-      const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
-      const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
-  
-      document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
-        element.classList.remove('active')
-        element.setAttribute('aria-pressed', 'false')
-      })
-  
-      btnToActive.classList.add('active')
-      btnToActive.setAttribute('aria-pressed', 'true')
-      activeThemeIcon.setAttribute('href', svgOfActiveBtn)
-      const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
-      themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
-  
-      if (focus) {
-        themeSwitcher.focus()
-      }
-    }
-  
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      const storedTheme = getStoredTheme()
-      if (storedTheme !== 'light' && storedTheme !== 'dark') {
-        setTheme(getPreferredTheme())
-      }
-    })
-  
-    window.addEventListener('DOMContentLoaded', () => {
-      showActiveTheme(getPreferredTheme())
-  
-      document.querySelectorAll('[data-bs-theme-value]')
-        .forEach(toggle => {
-          toggle.addEventListener('click', () => {
-            const theme = toggle.getAttribute('data-bs-theme-value')
-            setStoredTheme(theme)
-            setTheme(theme)
-            showActiveTheme(theme, true)
-          })
-        })
-    })
-  })()
+}
+
+// Asociar la función al botón
+document.getElementById('toggleBtn').addEventListener('click', toggleDarkMode);

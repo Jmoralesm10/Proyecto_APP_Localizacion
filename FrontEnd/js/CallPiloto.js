@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('El nombre de usuario es:', storedUsername);
 });
 
+//Metodo para obtener los datos
 function GetDatos() {
 
     url = "https://changeable-tooth-production.up.railway.app/api/piloto";
@@ -89,6 +90,7 @@ function GetDatos() {
         });
 }
 
+//Metodo para eliminar los datos
 function DeleteDatos(e) {
     const idempleado = e.target.id;
 
@@ -124,6 +126,7 @@ function DeleteDatos(e) {
     idempleado.disabled = false;
 }
 
+//Metodo para actualizar los datos
 function PUTDatos() {
     var id = document.getElementById("txtIDU");
     var id_empresa = storedUsername;
@@ -163,7 +166,7 @@ function PUTDatos() {
 
 }
 
-
+//Metodo para insertar los datos
 function PostDatos() {
     var nombre = document.getElementById("txtnombres");
     var DPI = document.getElementById("txtDPI");
@@ -213,57 +216,18 @@ function Form(e) {
 }
 
 
+function toggleDarkMode() {
+    const body = document.body;
 
-(() => {
-    'use strict';
-  
-    const getStoredTheme = () => localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const setStoredTheme = theme => localStorage.setItem('theme', theme);
-    const setTheme = theme => document.documentElement.setAttribute('data-bs-theme', theme);
-  
-    const showActiveTheme = theme => {
-      const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`);
-      if (btnToActive) {
-        document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
-          element.classList.remove('active');
-          element.setAttribute('aria-pressed', 'false');
-        });
-  
-        btnToActive.classList.add('active');
-        btnToActive.setAttribute('aria-pressed', 'true');
-      }
-    };
-  
-    const themeToggleBtn = document.getElementById('theme-toggle');
-  
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = getStoredTheme();
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        const newButtonText = newTheme === 'dark' ? 'White Mode' : 'Dark Mode';
-  
-        setStoredTheme(newTheme);
-        setTheme(newTheme);
-        showActiveTheme(newTheme);
-  
-        // Cambia el texto del botón
-        themeToggleBtn.textContent = newButtonText;
-        // Agrega o quita la clase 'btn-dark' dependiendo del nuevo tema
-        themeToggleBtn.classList.toggle('btn-dark', newTheme === 'dark');
-      });
+    // Alternar entre las clases de Bootstrap para el modo oscuro y claro
+    if (body.classList.contains('dark-mode')) {
+      body.classList.remove('dark-mode');
+      document.documentElement.setAttribute('data-bs-theme', 'light');
+    } else {
+      body.classList.add('dark-mode');
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
     }
-  
-    const updateTheme = () => {
-      const currentTheme = getStoredTheme();
-      setTheme(currentTheme);
-      showActiveTheme(currentTheme);
-  
-      // Cambia el texto del botón
-      themeToggleBtn.textContent = currentTheme === 'dark' ? 'White Mode' : 'Dark Mode';
-      // Agrega o quita la clase 'btn-dark' dependiendo del tema actual
-      themeToggleBtn.classList.toggle('btn-dark', currentTheme === 'dark');
-    };
-  
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
-    window.addEventListener('DOMContentLoaded', updateTheme);
-  })();
+  }
+
+  // Asociar la función al botón
+  document.getElementById('toggleBtn').addEventListener('click', toggleDarkMode);
